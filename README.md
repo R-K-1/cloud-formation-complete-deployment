@@ -3,9 +3,9 @@
 These are Cloud Formation diagram and template showing how to deploy a web-application for high availability
 
 
-## TL;DR
+## How to use it
 
-You will need an AWS account to test it:
+You will need an AWS account to use it:
 
 * create AWS account
 * create an IAM user
@@ -13,7 +13,7 @@ You will need an AWS account to test it:
 * assign the IAM role to the user you created earlier
 * navigate to the folder where the code has been saved
 * run the command 'create.sh high-availability-stack high-availability-stack-template.yml high-availability-stack-parameters.json'
-* Once the terminal displays a StackId go to the AWS console, open Cloud Formation, select the Portland, OR region and you will see your stack
+* Once the terminal displays a StackId go to the AWS console, open Cloud Formation, select the Northen Virginia and you will see your stack
 
 ## What You're Getting
 ```bash
@@ -24,7 +24,7 @@ You will need an AWS account to test it:
 ├── create.sh # Helper script for running the create-stack command
 ├── update.sh # Helper script for running the update-stack command
 ├── high_availability_stack.yml # Cloud Formation script deploying the high availability stack
-└── high-availability-stack-parameters.json # Paramaters values
+└── high_availability_stack_parameters.json # Paramaters values
 
 ```
 ## Contributing
