@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+# This CloudFormation template deploys a high availability web application
+
+Parameters: 
+  EnvironmentName: 
+    Description: An environment name that will be prefixed to the name of the resources we create
+    Type: String
+
+  InstanceType: 
+    Description: The type of instance to be provisioned to host the web server
+    Type: String
+
+  DiskSize: 
+    Description: Size of drive for the created instance(s)
+    Type: String
+
+Resources:
+
+  # First, a VPC:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.1.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+      - Key: Name
+        Value: !Sub ${EnvironmentName}-VPC
