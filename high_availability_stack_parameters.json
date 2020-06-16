@@ -10,5 +10,21 @@
     {
         "ParameterKey": "DiskSize",
         "ParameterValue": "10 GB"
+    },
+    {
+        "ParameterKey": "PublicSubnetACIDR",
+        "ParameterValue": "10.1.10.0/24"
+    },
+    {
+        "ParameterKey": "PublicSubnetBCIDR",
+        "ParameterValue": "10.1.20.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnetACIDR",
+        "ParameterValue": "10.1.40.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnetBCIDR",
+        "ParameterValue": "10.1.50.0/24"
     }
 ]

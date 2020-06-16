@@ -15,6 +15,22 @@ Parameters:
     Description: Size of drive for the created instance(s)
     Type: String
 
+  PublicSubnetACIDR: 
+    Description: Local IP address block dedicated to public subnet A
+    Type: String
+
+  PublicSubnetBCIDR: 
+    Description: Local IP address block dedicated to public subnet B
+    Type: String
+
+  PrivateSubnetACIDR: 
+    Description: Local IP address block dedicated to private subnet A
+    Type: String
+
+  PrivateSubnetBCIDR: 
+    Description: Local IP address block dedicated to private subnet B
+    Type: String
+
 Resources:
 
   # First, a VPC:
@@ -38,3 +54,41 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       InternetGatewayId: !Ref InternetGateway
+
+  # Now some subnets, 2 public and 2 private:
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref PublicSubnetACIDR
+      AvailabilityZone: !Select [ 0, !GetAZs ]    # Get the first AZ in the list        
+      Tags:
+      - Key: Name
+        Value: !Sub ${EnvironmentName}-Public-A
+  PublicSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref PublicSubnetBCIDR
+      AvailabilityZone: !Select [ 1, !GetAZs ]    # Get the second AZ in the list  
+      Tags:
+      - Key: Name
+        Value: !Sub ${EnvironmentName}-Public-B
+  PrivateSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref PrivateSubnetACIDR
+      AvailabilityZone: !Select [ 0, !GetAZs ]    # Get the first AZ in the list  
+      Tags:
+      - Key: Name
+        Value: !Sub ${EnvironmentName}-Private-A
+  PrivateSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref PrivateSubnetBCIDR
+      AvailabilityZone: !Select [ 1, !GetAZs ]    # Get the second AZ in the list  
+      Tags:
+      - Key: Name
+        Value: !Sub ${EnvironmentName}-Private-B
