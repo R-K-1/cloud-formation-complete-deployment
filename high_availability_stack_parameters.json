@@ -1,15 +1,7 @@
 [
     {
         "ParameterKey": "EnvironmentName",
-        "ParameterValue": "CloudFormHADepl"
-    }, 
-    {
-        "ParameterKey": "InstanceType",
-        "ParameterValue": "t3.small"
-    },
-    {
-        "ParameterKey": "DiskSize",
-        "ParameterValue": "10 GB"
+        "ParameterValue": "SecureHighAvailabilityDeployment"
     },
     {
         "ParameterKey": "PublicSubnetACIDR",
@@ -26,5 +18,25 @@
     {
         "ParameterKey": "PrivateSubnetBCIDR",
         "ParameterValue": "10.1.50.0/24"
+    },
+    {
+        "ParameterKey": "AMIId",
+        "ParameterValue": "ami-003634241a8fcdec0"
+    },
+    {
+        "ParameterKey": "InstanceType",
+        "ParameterValue": "t3.small"
+    },
+    {
+        "ParameterKey": "DiskSize",
+        "ParameterValue": "10 GB"
+    },
+    {
+        "ParameterKey": "InstanceIAMProfile",
+        "ParameterValue": "Secure-HighAvailabilty-Deployment-Profile"
+    },
+    {
+        "ParameterKey": "SSHKeyName",
+        "ParameterValue": "secure-high-availability-deployment-key-or"
     }
 ]
