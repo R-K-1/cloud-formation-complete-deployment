@@ -189,6 +189,11 @@ Resources:
         - Key: Name
           Value: !Sub '${EnvironmentName}-BastionInstance'
 
+  BastionEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref BastionInstance
+
   BastionSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
