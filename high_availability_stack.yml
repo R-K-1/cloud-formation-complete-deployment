@@ -34,6 +34,10 @@ Parameters:
   DiskSize: 
     Description: Size of drive for the created instance(s)
     Type: String
+
+  DiskMountPath: 
+    Description: Path where the disk or volume will be mounted
+    Type: String
   
   InstanceIAMProfile: 
     Description: IAM profile containing roles with permissions necessary for instances to access other cloud resources
@@ -220,19 +224,6 @@ Resources:
       ToPort: 22
       DestinationSecurityGroupId: !Ref ApplicationSecurityGroup
 
-  ApplicationInstance:
-    Type: AWS::EC2::Instance
-    Properties:
-      ImageId: !Ref AMIId
-      InstanceType: !Ref InstanceType
-      KeyName: !Ref SSHKeyName
-      SubnetId: !Ref PrivateSubnetA
-      SecurityGroupIds:
-        - !Ref ApplicationSecurityGroup
-      Tags:
-        - Key: Name
-          Value: !Sub '${EnvironmentName}-ApplicationInstance'
-
   ApplicationSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -258,3 +249,57 @@ Resources:
       FromPort: 80
       ToPort: 80
       CidrIp: 0.0.0.0/0
+
+  ApplicationAllowOutboundHTTPToTheWorld:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      GroupId: !Ref ApplicationSecurityGroup
+      IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      CidrIp: 0.0.0.0/0
+
+  ProfileWithRolesForOurApp:
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Roles:
+        - UdacityS3ReadOnlyEC2
+
+  AppLicationLaunchConfig:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash
+            apt-get update -y
+            apt-get install unzip awscli -y
+            apt-get install apache2 -y
+            systemctl start apache2.service
+            cd /var/www/html
+            aws s3 cp s3://udacity-demo-1/udacity.zip .
+            unzip -o udacity.zip
+
+      ImageId: !Ref AMIId
+      IamInstanceProfile: !Ref ProfileWithRolesForOurApp
+      SecurityGroups:
+      - Ref: ApplicationSecurityGroup
+      InstanceType: !Ref InstanceType
+      BlockDeviceMappings:
+      - DeviceName: !Ref DiskMountPath
+        Ebs:
+          VolumeSize: !Ref DiskSize
+      KeyName: !Ref SSHKeyName
+  ApplicationGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AvailabilityZones:
+        - !Select [ 0, !GetAZs ]
+        - !Select [ 1, !GetAZs ]
+      LaunchConfigurationName:
+        Ref: AppLicationLaunchConfig
+      MinSize: '4'
+      MaxSize: '4'
+      VPCZoneIdentifier:
+        - Ref: PrivateSubnetA
+        - Ref: PrivateSubnetB

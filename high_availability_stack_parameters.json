@@ -29,7 +29,11 @@
     },
     {
         "ParameterKey": "DiskSize",
-        "ParameterValue": "10 GB"
+        "ParameterValue": "10"
+    },
+    {
+        "ParameterKey": "DiskMountPath",
+        "ParameterValue": "/dev/sdk"
     },
     {
         "ParameterKey": "InstanceIAMProfile",
