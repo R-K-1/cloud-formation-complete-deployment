@@ -13,7 +13,8 @@ You will need an AWS account to use it:
 * assign the IAM role to the user you created earlier
 * navigate to the folder where the code has been saved
 * run the command 'create.sh high-availability-stack high-availability-stack-template.yml high-availability-stack-parameters.json'
-* Once the terminal displays a StackId go to the AWS console, open Cloud Formation, select the Northen Virginia and you will see your stack
+* Once the terminal displays a StackId go to the AWS console, open Cloud Formation, select the Oregon region and you will see your stack
+* select the stack and go to the output tab to get the HTTP URL of the load balancer
 
 ## What You're Getting
 ```bash
